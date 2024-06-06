@@ -1,6 +1,6 @@
 {
   "name": "@xloxlolex/vector-math",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Fast and easy-to-use Vector Math library powered by TypeScript",
   "main": "index.ts",
   "scripts": {
