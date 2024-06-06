@@ -1,0 +1,29 @@
+{
+  "name": "@xloxlolex/vector-math",
+  "version": "1.0.0",
+  "description": "Fast and easy to use Vector Math powered by TypeScript",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gonzaloivan121/vector-math.git"
+  },
+  "keywords": [
+    "vector",
+    "vectors",
+    "math",
+    "typescript",
+    "ts"
+  ],
+  "author": "Gonzalo Iván Chaparro Barese",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gonzaloivan121/vector-math/issues"
+  },
+  "homepage": "https://github.com/gonzaloivan121/vector-math#readme",
+  "devDependencies": {
+    "@types/node": "^20.14.2"
+  }
+}
