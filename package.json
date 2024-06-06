@@ -1,7 +1,7 @@
 {
   "name": "@xloxlolex/vector-math",
-  "version": "1.0.0",
-  "description": "Fast and easy to use Vector Math powered by TypeScript",
+  "version": "1.0.1",
+  "description": "Fast and easy-to-use Vector Math library powered by TypeScript",
   "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
