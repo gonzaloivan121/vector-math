@@ -1,10 +1,12 @@
 {
   "name": "@xloxlolex/vector-math",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Fast and easy-to-use Vector Math library powered by TypeScript",
-  "main": "index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
@@ -24,6 +26,7 @@
   },
   "homepage": "https://github.com/gonzaloivan121/vector-math#readme",
   "devDependencies": {
-    "@types/node": "^20.14.2"
+    "@types/node": "^20.14.2",
+    "typescript": "^5.4.5"
   }
 }
