@@ -136,16 +136,6 @@ export class Vector2 implements IVector2 {
     }
 
     /**
-     * Cross Product of two vectors.
-     * @param lhs Left hand side
-     * @param rhs Right hand side
-     * @returns
-     */
-    public static Cross(lhs: Vector2, rhs: Vector2): Vector2 {
-        return new Vector2(lhs.x * rhs.y - rhs.x * lhs.y);
-    }
-
-    /**
      * Returns the distance between a and b.
      * @param a First vector
      * @param b Second vector

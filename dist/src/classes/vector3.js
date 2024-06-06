@@ -3,9 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Vector3 = void 0;
 class Vector3 {
     /**
-     * Creates a new vector with given x and y components.
+     * Creates a new vector with given x, y and z components.
      * @param x X component of the vector.
      * @param y Y component of the vector.
+     * @param z Z component of the vector.
      */
     constructor(x, y, z) {
         /**
@@ -64,13 +65,13 @@ class Vector3 {
         return new Vector3(0, 0, -1);
     }
     /**
-     * Shorthand for writing Vector3(1, 1).
+     * Shorthand for writing Vector3(1, 1, 1).
      */
     static get one() {
         return new Vector3(1, 1, 1);
     }
     /**
-     * Shorthand for writing Vector3(0, 0).
+     * Shorthand for writing Vector3(0, 0, 0).
      */
     static get zero() {
         return new Vector3(0, 0, 0);

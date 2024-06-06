@@ -1,1 +1,1 @@
-export { Vector2, Vector3 } from "./src/classes";
+export { Vector2, Vector3, Vector4 } from "./src/classes";

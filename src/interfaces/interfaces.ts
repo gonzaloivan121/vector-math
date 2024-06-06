@@ -8,3 +8,10 @@ export interface IVector3 {
     y: number;
     z: number;
 }
+
+export interface IVector4 {
+    x: number;
+    y: number;
+    z: number;
+    w: number;
+}

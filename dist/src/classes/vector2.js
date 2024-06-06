@@ -119,15 +119,6 @@ class Vector2 {
         return new Vector2(vector.x * multiplier, vector.y * multiplier);
     }
     /**
-     * Cross Product of two vectors.
-     * @param lhs Left hand side
-     * @param rhs Right hand side
-     * @returns
-     */
-    static Cross(lhs, rhs) {
-        return new Vector2(lhs.x * rhs.y - rhs.x * lhs.y);
-    }
-    /**
      * Returns the distance between a and b.
      * @param a First vector
      * @param b Second vector

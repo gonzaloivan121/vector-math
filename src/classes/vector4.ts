@@ -1,6 +1,6 @@
-import { IVector3 } from "../interfaces/interfaces";
+import { IVector4 } from "../interfaces/interfaces";
 
-export class Vector3 implements IVector3 {
+export class Vector4 implements IVector4 {
     /**
      * X component of the vector.
      */
@@ -13,107 +13,81 @@ export class Vector3 implements IVector3 {
      * Z component of the vector.
      */
     public z: number = 0;
+    /**
+     * W component of the vector.
+     */
+    public w: number = 1;
 
     /**
-     * Creates a new vector with given x, y and z components.
+     * Creates a new vector with given x, y, z and w components.
      * @param x X component of the vector.
      * @param y Y component of the vector.
      * @param z Z component of the vector.
+     * @param w W component of the vector.
      */
-    constructor(x?: number, y?: number, z?: number) {
+    constructor(x?: number, y?: number, z?: number, w?: number) {
         if (x) this.x = x;
         if (y) this.y = y;
         if (z) this.z = z;
+        if (w) this.w = w;
     }
 
     /**
-     * Shorthand for writing Vector3(1, 0, 0).
+     * Shorthand for writing Vector4(1, 1, 1, 1).
      */
-    public static get right(): Vector3 {
-        return new Vector3(1, 0, 0);
+    public static get one(): Vector4 {
+        return new Vector4(1, 1, 1, 1);
     }
 
     /**
-     * Shorthand for writing Vector3(-1, 0, 0).
+     * Shorthand for writing Vector4(0, 0, 0, 0).
      */
-    public static get left(): Vector3 {
-        return new Vector3(-1, 0, 0);
+    public static get zero(): Vector4 {
+        return new Vector4(0, 0, 0, 0);
     }
 
     /**
-     * Shorthand for writing Vector3(0, 1, 0).
+     * Shorthand for writing Vector4(-Infinity, -Infinity, -Infinity, -Infinity).
      */
-    public static get up(): Vector3 {
-        return new Vector3(0, 1, 0);
+    public static get negativeInfinity(): Vector4 {
+        return new Vector4(-Infinity, -Infinity, -Infinity, -Infinity);
     }
 
     /**
-     * Shorthand for writing Vector3(0, -1, 0).
+     * Shorthand for writing Vector4(Infinity, Infinity, Infinity, Infinity).
      */
-    public static get down(): Vector3 {
-        return new Vector3(0, -1, 0);
-    }
-
-    /**
-     * Shorthand for writing Vector3(0, 0, 1).
-     */
-    public static get forward(): Vector3 {
-        return new Vector3(0, 0, 1);
-    }
-
-    /**
-     * Shorthand for writing Vector3(0, 0, -1).
-     */
-    public static get back(): Vector3 {
-        return new Vector3(0, 0, -1);
-    }
-
-    /**
-     * Shorthand for writing Vector3(1, 1, 1).
-     */
-    public static get one(): Vector3 {
-        return new Vector3(1, 1, 1);
-    }
-
-    /**
-     * Shorthand for writing Vector3(0, 0, 0).
-     */
-    public static get zero(): Vector3 {
-        return new Vector3(0, 0, 0);
-    }
-
-    /**
-     * Shorthand for writing Vector3(-Infinity, -Infinity, -Infinity).
-     */
-    public static get negativeInfinity(): Vector3 {
-        return new Vector3(-Infinity, -Infinity, -Infinity);
-    }
-
-    /**
-     * Shorthand for writing Vector3(Infinity, Infinity, Infinity).
-     */
-    public static get positiveInfinity(): Vector3 {
-        return new Vector3(Infinity, Infinity, Infinity);
+    public static get positiveInfinity(): Vector4 {
+        return new Vector4(Infinity, Infinity, Infinity, Infinity);
     }
 
     /**
      * Returns this vector with a magnitude of 1 (Read Only).
      */
-    public get normalized(): Vector3 {
+    public get normalized(): Vector4 {
         const mag = this.magnitude;
 
         if (mag > 0) {
-            return new Vector3(this.x / mag, this.y / mag, this.z / mag);
+            return new Vector4(
+                this.x / mag,
+                this.y / mag,
+                this.z / mag,
+                this.w / mag
+            );
         }
 
-        return Vector3.zero;
+        return Vector4.zero;
     }
 
     /**
      * Returns the length of this vector
      */
     public get magnitude(): number {
-        return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
+        return Math.sqrt(
+            this.x * this.x +
+            this.y * this.y +
+            this.z * this.z +
+            this.w * this.w
+        );
     }
 
     /**
@@ -129,8 +103,8 @@ export class Vector3 implements IVector3 {
      * @param to The vector to which the angular difference is measured.
      * @returns The angle in degrees between the two vectors.
      */
-    public static Angle(from: Vector3, to: Vector3): number {
-        const dot = Vector3.Dot(from, to);
+    public static Angle(from: Vector4, to: Vector4): number {
+        const dot = Vector4.Dot(from, to);
         const magFrom = from.magnitude;
         const magTo = to.magnitude;
         const RAD = 180 / Math.PI;
@@ -144,7 +118,7 @@ export class Vector3 implements IVector3 {
      * @param maxLength length to clamp to
      * @returns vector with its magnitude clamped
      */
-    public static ClampMagnitude(vector: Vector3, maxLength: number): Vector3 {
+    public static ClampMagnitude(vector: Vector4, maxLength: number): Vector4 {
         const mag: number = vector.magnitude;
         let multiplier: number = 1;
 
@@ -152,24 +126,11 @@ export class Vector3 implements IVector3 {
             multiplier = maxLength / mag;
         }
 
-        return new Vector3(
+        return new Vector4(
             vector.x * multiplier,
             vector.y * multiplier,
-            vector.z * multiplier
-        );
-    }
-
-    /**
-     * Cross Product of two vectors.
-     * @param lhs Left hand side vector
-     * @param rhs Right hand side vector
-     * @returns
-     */
-    public static Cross(lhs: Vector3, rhs: Vector3): Vector3 {
-        return new Vector3(
-            lhs.y * rhs.z - lhs.z * rhs.y,
-            lhs.z * rhs.x - lhs.x * rhs.z,
-            lhs.x * rhs.y - lhs.y * rhs.x
+            vector.z * multiplier,
+            vector.w * multiplier
         );
     }
 
@@ -179,8 +140,8 @@ export class Vector3 implements IVector3 {
      * @param b Second vector
      * @returns distance between a and b
      */
-    public static Distance(a: Vector3, b: Vector3): number {
-        return Vector3.Subtract(a, b).magnitude;
+    public static Distance(a: Vector4, b: Vector4): number {
+        return Vector4.Subtract(a, b).magnitude;
     }
 
     /**
@@ -189,8 +150,8 @@ export class Vector3 implements IVector3 {
      * @param rhs Right hand side
      * @returns
      */
-    public static Dot(lhs: Vector3, rhs: Vector3): number {
-        return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z;
+    public static Dot(lhs: Vector4, rhs: Vector4): number {
+        return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z + lhs.w * rhs.w;
     }
 
     /**
@@ -200,11 +161,11 @@ export class Vector3 implements IVector3 {
      * @param t Value used to interpolate between a and b.
      * @returns Interpolated value, equals to a + (b - a) * t.
      */
-    public static Lerp(a: Vector3, b: Vector3, t: number): Vector3 {
+    public static Lerp(a: Vector4, b: Vector4, t: number): Vector4 {
         if (t < 0) return a;
         if (t > 1) return b;
 
-        return Vector3.DoLerp(a, b, t);
+        return Vector4.DoLerp(a, b, t);
     }
 
     /**
@@ -214,10 +175,10 @@ export class Vector3 implements IVector3 {
      * @param t Value used to interpolate between a and b.
      * @returns Interpolated value, equals to a + (b - a) * t.
      */
-    private static DoLerp(a: Vector3, b: Vector3, t: number): Vector3 {
-        const subtracted = Vector3.Subtract(b, a);
-        const multiplied = Vector3.Multiply(subtracted, t);
-        const added = Vector3.Add(a, multiplied);
+    private static DoLerp(a: Vector4, b: Vector4, t: number): Vector4 {
+        const subtracted = Vector4.Subtract(b, a);
+        const multiplied = Vector4.Multiply(subtracted, t);
+        const added = Vector4.Add(a, multiplied);
 
         return added;
     }
@@ -229,8 +190,8 @@ export class Vector3 implements IVector3 {
      * @param t Value used to interpolate between a and b.
      * @returns Interpolated value, equals to a + (b - a) * t.
      */
-    public static LerpUnclamped(a: Vector3, b: Vector3, t: number): Vector3 {
-        return Vector3.DoLerp(a, b, t);
+    public static LerpUnclamped(a: Vector4, b: Vector4, t: number): Vector4 {
+        return Vector4.DoLerp(a, b, t);
     }
 
     /**
@@ -238,7 +199,7 @@ export class Vector3 implements IVector3 {
      * @param vector the given vector
      * @returns the length of the given vector
      */
-    public static Magnitude(vector: Vector3): number {
+    public static Magnitude(vector: Vector4): number {
         return vector.magnitude;
     }
 
@@ -248,11 +209,12 @@ export class Vector3 implements IVector3 {
      * @param rhs vector 2
      * @returns a vector that is made from the largest components of two vectors.
      */
-    public static Max(lhs: Vector3, rhs: Vector3): Vector3 {
-        return new Vector3(
+    public static Max(lhs: Vector4, rhs: Vector4): Vector4 {
+        return new Vector4(
             lhs.x >= rhs.x ? lhs.x : rhs.x,
             lhs.y >= rhs.y ? lhs.y : rhs.y,
-            lhs.z >= rhs.z ? lhs.z : rhs.z
+            lhs.z >= rhs.z ? lhs.z : rhs.z,
+            lhs.w >= rhs.w ? lhs.w : rhs.w
         );
     }
 
@@ -262,11 +224,12 @@ export class Vector3 implements IVector3 {
      * @param rhs vector 2
      * @returns a vector that is made from the smallest components of two vectors.
      */
-    public static Min(lhs: Vector3, rhs: Vector3): Vector3 {
-        return new Vector3(
+    public static Min(lhs: Vector4, rhs: Vector4): Vector4 {
+        return new Vector4(
             lhs.x <= rhs.x ? lhs.x : rhs.x,
             lhs.y <= rhs.y ? lhs.y : rhs.y,
-            lhs.z <= rhs.z ? lhs.z : rhs.z
+            lhs.z <= rhs.z ? lhs.z : rhs.z,
+            lhs.w <= rhs.w ? lhs.w : rhs.w,
         );
     }
 
@@ -279,12 +242,12 @@ export class Vector3 implements IVector3 {
      * @returns The new position.
      */
     public static MoveTowards(
-        current: Vector3,
-        target: Vector3,
+        current: Vector4,
+        target: Vector4,
         maxDistanceDelta: number
-    ): Vector3 {
-        const distance: number = Vector3.Distance(target, current);
-        return Vector3.Lerp(current, target, maxDistanceDelta / distance);
+    ): Vector4 {
+        const distance: number = Vector4.Distance(target, current);
+        return Vector4.Lerp(current, target, maxDistanceDelta / distance);
     }
 
     // ADD, SUBTRACT, MULTIPLY, DIVIDE (Method)
@@ -293,15 +256,17 @@ export class Vector3 implements IVector3 {
      * Add a vector or a number to this vector
      * @param rhs vector or number
      */
-    public Add(rhs: Vector3 | number): void {
+    public Add(rhs: Vector4 | number): void {
         if (typeof rhs === "number") {
             this.x += rhs;
             this.y += rhs;
             this.z += rhs;
+            this.w += rhs;
         } else {
             this.x += rhs.x;
             this.y += rhs.y;
             this.z += rhs.z;
+            this.w += rhs.w;
         }
     }
 
@@ -309,15 +274,17 @@ export class Vector3 implements IVector3 {
      * Subtract a vector or a number to this vector
      * @param rhs vector or number
      */
-    public Subtract(rhs: Vector3 | number): void {
+    public Subtract(rhs: Vector4 | number): void {
         if (typeof rhs === "number") {
             this.x -= rhs;
             this.y -= rhs;
             this.z -= rhs;
+            this.w -= rhs;
         } else {
             this.x -= rhs.x;
             this.y -= rhs.y;
             this.z -= rhs.z;
+            this.w -= rhs.w;
         }
     }
 
@@ -325,15 +292,17 @@ export class Vector3 implements IVector3 {
      * Multiply a vector or a number to this vector
      * @param rhs vector or number
      */
-    public Multiply(rhs: Vector3 | number): void {
+    public Multiply(rhs: Vector4 | number): void {
         if (typeof rhs === "number") {
             this.x *= rhs;
             this.y *= rhs;
             this.z *= rhs;
+            this.w *= rhs;
         } else {
             this.x *= rhs.x;
             this.y *= rhs.y;
             this.z *= rhs.z;
+            this.w *= rhs.w;
         }
     }
 
@@ -341,15 +310,17 @@ export class Vector3 implements IVector3 {
      * Divide a vector or a number to this vector
      * @param rhs vector or number
      */
-    public Divide(rhs: Vector3 | number): void {
+    public Divide(rhs: Vector4 | number): void {
         if (typeof rhs === "number") {
             this.x /= rhs;
             this.y /= rhs;
             this.z /= rhs;
+            this.w /= rhs;
         } else {
             this.x /= rhs.x;
             this.y /= rhs.y;
             this.z /= rhs.z;
+            this.w /= rhs.w;
         }
     }
 
@@ -361,11 +332,11 @@ export class Vector3 implements IVector3 {
      * @param b vector or number b
      * @returns the added vector
      */
-    public static Add(a: Vector3, b: Vector3 | number): Vector3 {
+    public static Add(a: Vector4, b: Vector4 | number): Vector4 {
         if (typeof b === "number") {
-            return new Vector3(a.x + b, a.y + b, a.z + b);
+            return new Vector4(a.x + b, a.y + b, a.z + b, a.w + b);
         } else {
-            return new Vector3(a.x + b.x, a.y + b.y, a.z + b.z);
+            return new Vector4(a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w);
         }
     }
 
@@ -375,11 +346,11 @@ export class Vector3 implements IVector3 {
      * @param b vector or number b
      * @returns the subtracted vector
      */
-    public static Subtract(a: Vector3, b: Vector3 | number): Vector3 {
+    public static Subtract(a: Vector4, b: Vector4 | number): Vector4 {
         if (typeof b === "number") {
-            return new Vector3(a.x - b, a.y - b, a.z - b);
+            return new Vector4(a.x - b, a.y - b, a.z - b, a.w - b);
         } else {
-            return new Vector3(a.x - b.x, a.y - b.y, a.z - b.z);
+            return new Vector4(a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w);
         }
     }
 
@@ -389,11 +360,11 @@ export class Vector3 implements IVector3 {
      * @param b vector or number b
      * @returns the multiplied vector
      */
-    public static Multiply(a: Vector3, b: Vector3 | number): Vector3 {
+    public static Multiply(a: Vector4, b: Vector4 | number): Vector4 {
         if (typeof b === "number") {
-            return new Vector3(a.x * b, a.y * b, a.z * b);
+            return new Vector4(a.x * b, a.y * b, a.z * b, a.w * b);
         } else {
-            return new Vector3(a.x * b.x, a.y * b.y, a.z * b.z);
+            return new Vector4(a.x * b.x, a.y * b.y, a.z * b.z, a.w * b.w);
         }
     }
 
@@ -403,11 +374,11 @@ export class Vector3 implements IVector3 {
      * @param b vector or number b
      * @returns the divided vector
      */
-    public static Divide(a: Vector3, b: Vector3 | number): Vector3 {
+    public static Divide(a: Vector4, b: Vector4 | number): Vector4 {
         if (typeof b === "number") {
-            return new Vector3(a.x / b, a.y / b, a.z / b);
+            return new Vector4(a.x / b, a.y / b, a.z / b, a.w / b);
         } else {
-            return new Vector3(a.x / b.x, a.y / b.y, a.z / b.z);
+            return new Vector4(a.x / b.x, a.y / b.y, a.z / b.z, a.w / b.w);
         }
     }
 }
