@@ -21,56 +21,56 @@ export class Vector2 implements IVector2 {
     }
 
     /**
-     * Shorthand for writing Vector(1, 0).
+     * Shorthand for writing Vector2(1, 0).
      */
     public static get right(): Vector2 {
         return new Vector2(1, 0);
     }
 
     /**
-     * Shorthand for writing Vector(-1, 0).
+     * Shorthand for writing Vector2(-1, 0).
      */
     public static get left(): Vector2 {
         return new Vector2(-1, 0);
     }
 
     /**
-     * Shorthand for writing Vector(0, 1).
+     * Shorthand for writing Vector2(0, 1).
      */
     public static get up(): Vector2 {
         return new Vector2(0, 1);
     }
 
     /**
-     * Shorthand for writing Vector(0, -1).
+     * Shorthand for writing Vector2(0, -1).
      */
     public static get down(): Vector2 {
         return new Vector2(0, -1);
     }
 
     /**
-     * Shorthand for writing Vector(1, 1).
+     * Shorthand for writing Vector2(1, 1).
      */
     public static get one(): Vector2 {
         return new Vector2(1, 1);
     }
 
     /**
-     * Shorthand for writing Vector(0, 0).
+     * Shorthand for writing Vector2(0, 0).
      */
     public static get zero(): Vector2 {
         return new Vector2(0, 0);
     }
 
     /**
-     * Shorthand for writing Vector(-Infinity, -Infinity).
+     * Shorthand for writing Vector2(-Infinity, -Infinity).
      */
     public static get negativeInfinity(): Vector2 {
         return new Vector2(-Infinity, -Infinity);
     }
 
     /**
-     * Shorthand for writing Vector(Infinity, Infinity).
+     * Shorthand for writing Vector2(Infinity, Infinity).
      */
     public static get positiveInfinity(): Vector2 {
         return new Vector2(Infinity, Infinity);

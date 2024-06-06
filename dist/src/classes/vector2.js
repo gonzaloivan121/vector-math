@@ -22,49 +22,49 @@ class Vector2 {
             this.y = y;
     }
     /**
-     * Shorthand for writing Vector(1, 0).
+     * Shorthand for writing Vector2(1, 0).
      */
     static get right() {
         return new Vector2(1, 0);
     }
     /**
-     * Shorthand for writing Vector(-1, 0).
+     * Shorthand for writing Vector2(-1, 0).
      */
     static get left() {
         return new Vector2(-1, 0);
     }
     /**
-     * Shorthand for writing Vector(0, 1).
+     * Shorthand for writing Vector2(0, 1).
      */
     static get up() {
         return new Vector2(0, 1);
     }
     /**
-     * Shorthand for writing Vector(0, -1).
+     * Shorthand for writing Vector2(0, -1).
      */
     static get down() {
         return new Vector2(0, -1);
     }
     /**
-     * Shorthand for writing Vector(1, 1).
+     * Shorthand for writing Vector2(1, 1).
      */
     static get one() {
         return new Vector2(1, 1);
     }
     /**
-     * Shorthand for writing Vector(0, 0).
+     * Shorthand for writing Vector2(0, 0).
      */
     static get zero() {
         return new Vector2(0, 0);
     }
     /**
-     * Shorthand for writing Vector(-Infinity, -Infinity).
+     * Shorthand for writing Vector2(-Infinity, -Infinity).
      */
     static get negativeInfinity() {
         return new Vector2(-Infinity, -Infinity);
     }
     /**
-     * Shorthand for writing Vector(Infinity, Infinity).
+     * Shorthand for writing Vector2(Infinity, Infinity).
      */
     static get positiveInfinity() {
         return new Vector2(Infinity, Infinity);
