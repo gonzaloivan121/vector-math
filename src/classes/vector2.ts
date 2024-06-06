@@ -1,9 +1,6 @@
 import { IVector2 } from "../interfaces/interfaces";
 
 export class Vector2 implements IVector2 {
-    public readonly kEpsilon: number = 1e-5;
-    public readonly kEpsilonNormalSqrt: number = 1e-15;
-
     /**
      * X component of the vector.
      */
