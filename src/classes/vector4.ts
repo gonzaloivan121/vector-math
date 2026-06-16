@@ -2,34 +2,51 @@ import { IVector4 } from "../interfaces/interfaces";
 
 export class Vector4 implements IVector4 {
     /**
-     * X component of the vector.
+     * X component of the `Vector4`.
+     *
+     * @type {number}
+     * @memberof Vector4
      */
     public x: number = 0;
+
     /**
-     * Y component of the vector.
+     * Y component of the `Vector4`.
+     *
+     * @type {number}
+     * @memberof Vector4
      */
     public y: number = 0;
+
     /**
-     * Z component of the vector.
+     * Z component of the `Vector4`.
+     *
+     * @type {number}
+     * @memberof Vector4
      */
     public z: number = 0;
+
     /**
-     * W component of the vector.
+     * W component of the `Vector4`.
+     *
+     * @type {number}
+     * @memberof Vector4
      */
     public w: number = 1;
 
     /**
-     * Creates a new vector with given x, y, z and w components.
-     * @param x X component of the vector.
-     * @param y Y component of the vector.
-     * @param z Z component of the vector.
-     * @param w W component of the vector.
+     * Creates an instance of `Vector4` with the given `x`, `y`, `z` and `w` components.
+     *
+     * @param {number} [x] The X component of the `Vector4`.
+     * @param {number} [y] The Y component of the `Vector4`.
+     * @param {number} [z] The Z component of the `Vector4`.
+     * @param {number} [w] The W component of the `Vector4`.
+     * @memberof Vector4
      */
     constructor(x?: number, y?: number, z?: number, w?: number) {
-        if (x) this.x = x;
-        if (y) this.y = y;
-        if (z) this.z = z;
-        if (w) this.w = w;
+        if (x !== undefined) this.x = x;
+        if (y !== undefined) this.y = y;
+        if (z !== undefined) this.z = z;
+        if (w !== undefined) this.w = w;
     }
 
     /**
@@ -82,19 +99,18 @@ export class Vector4 implements IVector4 {
      * Returns the length of this vector
      */
     public get magnitude(): number {
-        return Math.sqrt(
-            this.x * this.x +
-            this.y * this.y +
-            this.z * this.z +
-            this.w * this.w
-        );
+        return Math.sqrt(Vector4.Dot(this, this));
     }
 
     /**
-     * Returns the squared length of this vector
+     * Returns the squared length of this `Vector4`.
+     *
+     * @readonly
+     * @type {number}
+     * @memberof Vector4
      */
     public get sqrMagnitude(): number {
-        return Math.sqrt(this.magnitude);
+        return Vector4.Dot(this, this);
     }
 
     /**
@@ -109,7 +125,13 @@ export class Vector4 implements IVector4 {
         const magTo = to.magnitude;
         const RAD = 180 / Math.PI;
 
-        return Math.acos(dot / (magFrom * magTo)) * RAD;
+        if (magFrom === 0 || magTo === 0) {
+            return 0;
+        }
+
+        const cosine = Math.min(1, Math.max(-1, dot / (magFrom * magTo)));
+
+        return Math.acos(cosine) * RAD;
     }
 
     /**
@@ -246,7 +268,16 @@ export class Vector4 implements IVector4 {
         target: Vector4,
         maxDistanceDelta: number
     ): Vector4 {
-        const distance: number = Vector4.Distance(target, current);
+        const distance: number = Vector4.Distance(current, target);
+
+        if (distance === 0 || maxDistanceDelta <= 0) {
+            return current;
+        }
+
+        if (maxDistanceDelta >= distance) {
+            return target;
+        }
+
         return Vector4.Lerp(current, target, maxDistanceDelta / distance);
     }
 

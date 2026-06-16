@@ -2,28 +2,41 @@ import { IVector3 } from "../interfaces/interfaces";
 
 export class Vector3 implements IVector3 {
     /**
-     * X component of the vector.
+     * X component of the `Vector3`.
+     *
+     * @type {number}
+     * @memberof Vector3
      */
     public x: number = 0;
+
     /**
-     * Y component of the vector.
+     * Y component of the `Vector3`.
+     *
+     * @type {number}
+     * @memberof Vector3
      */
     public y: number = 0;
+
     /**
-     * Z component of the vector.
+     * Z component of the `Vector3`.
+     *
+     * @type {number}
+     * @memberof Vector3
      */
     public z: number = 0;
 
     /**
-     * Creates a new vector with given x, y and z components.
-     * @param x X component of the vector.
-     * @param y Y component of the vector.
-     * @param z Z component of the vector.
+     * Creates an instance of `Vector3` with the given `x`, `y` and `z` components.
+     *
+     * @param {number} [x] The X component of the `Vector3`.
+     * @param {number} [y] The Y component of the `Vector3`.
+     * @param {number} [z] The Z component of the `Vector3`.
+     * @memberof Vector3
      */
     constructor(x?: number, y?: number, z?: number) {
-        if (x) this.x = x;
-        if (y) this.y = y;
-        if (z) this.z = z;
+        if (x !== undefined) this.x = x;
+        if (y !== undefined) this.y = y;
+        if (z !== undefined) this.z = z;
     }
 
     /**
@@ -113,14 +126,18 @@ export class Vector3 implements IVector3 {
      * Returns the length of this vector
      */
     public get magnitude(): number {
-        return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
+        return Math.sqrt(Vector3.Dot(this, this));
     }
 
     /**
-     * Returns the squared length of this vector
+     * Returns the squared length of this `Vector3`.
+     *
+     * @readonly
+     * @type {number}
+     * @memberof Vector3
      */
     public get sqrMagnitude(): number {
-        return Math.sqrt(this.magnitude);
+        return Vector3.Dot(this, this);
     }
 
     /**
@@ -135,7 +152,13 @@ export class Vector3 implements IVector3 {
         const magTo = to.magnitude;
         const RAD = 180 / Math.PI;
 
-        return Math.acos(dot / (magFrom * magTo)) * RAD;
+        if (magFrom === 0 || magTo === 0) {
+            return 0;
+        }
+
+        const cosine = Math.min(1, Math.max(-1, dot / (magFrom * magTo)));
+
+        return Math.acos(cosine) * RAD;
     }
 
     /**
@@ -283,7 +306,16 @@ export class Vector3 implements IVector3 {
         target: Vector3,
         maxDistanceDelta: number
     ): Vector3 {
-        const distance: number = Vector3.Distance(target, current);
+        const distance: number = Vector3.Distance(current, target);
+
+        if (distance === 0 || maxDistanceDelta <= 0) {
+            return current;
+        }
+
+        if (maxDistanceDelta >= distance) {
+            return target;
+        }
+
         return Vector3.Lerp(current, target, maxDistanceDelta / distance);
     }
 
