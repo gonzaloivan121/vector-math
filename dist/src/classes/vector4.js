@@ -3,36 +3,70 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Vector4 = void 0;
 class Vector4 {
     /**
-     * Creates a new vector with given x, y, z and w components.
-     * @param x X component of the vector.
-     * @param y Y component of the vector.
-     * @param z Z component of the vector.
-     * @param w W component of the vector.
+     * Creates an instance of `Vector4` with the given `x`, `y`, `z` and `w` components.
+     *
+     * @param {number} [x] The X component of the `Vector4`.
+     * @param {number} [y] The Y component of the `Vector4`.
+     * @param {number} [z] The Z component of the `Vector4`.
+     * @param {number} [w] The W component of the `Vector4`.
+     * @memberof Vector4
      */
     constructor(x, y, z, w) {
         /**
-         * X component of the vector.
+         * X component of the `Vector4`.
+         *
+         * @type {number}
+         * @memberof Vector4
          */
-        this.x = 0;
+        Object.defineProperty(this, "x", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: 0
+        });
         /**
-         * Y component of the vector.
+         * Y component of the `Vector4`.
+         *
+         * @type {number}
+         * @memberof Vector4
          */
-        this.y = 0;
+        Object.defineProperty(this, "y", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: 0
+        });
         /**
-         * Z component of the vector.
+         * Z component of the `Vector4`.
+         *
+         * @type {number}
+         * @memberof Vector4
          */
-        this.z = 0;
+        Object.defineProperty(this, "z", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: 0
+        });
         /**
-         * W component of the vector.
+         * W component of the `Vector4`.
+         *
+         * @type {number}
+         * @memberof Vector4
          */
-        this.w = 1;
-        if (x)
+        Object.defineProperty(this, "w", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: 1
+        });
+        if (x !== undefined)
             this.x = x;
-        if (y)
+        if (y !== undefined)
             this.y = y;
-        if (z)
+        if (z !== undefined)
             this.z = z;
-        if (w)
+        if (w !== undefined)
             this.w = w;
     }
     /**
@@ -73,16 +107,17 @@ class Vector4 {
      * Returns the length of this vector
      */
     get magnitude() {
-        return Math.sqrt(this.x * this.x +
-            this.y * this.y +
-            this.z * this.z +
-            this.w * this.w);
+        return Math.sqrt(Vector4.Dot(this, this));
     }
     /**
-     * Returns the squared length of this vector
+     * Returns the squared length of this `Vector4`.
+     *
+     * @readonly
+     * @type {number}
+     * @memberof Vector4
      */
     get sqrMagnitude() {
-        return Math.sqrt(this.magnitude);
+        return Vector4.Dot(this, this);
     }
     /**
      * Returns the angle in degrees between from and to.
@@ -95,7 +130,11 @@ class Vector4 {
         const magFrom = from.magnitude;
         const magTo = to.magnitude;
         const RAD = 180 / Math.PI;
-        return Math.acos(dot / (magFrom * magTo)) * RAD;
+        if (magFrom === 0 || magTo === 0) {
+            return 0;
+        }
+        const cosine = Math.min(1, Math.max(-1, dot / (magFrom * magTo)));
+        return Math.acos(cosine) * RAD;
     }
     /**
      * Returns a copy of vector with its magnitude clamped to maxLength.
@@ -201,7 +240,13 @@ class Vector4 {
      * @returns The new position.
      */
     static MoveTowards(current, target, maxDistanceDelta) {
-        const distance = Vector4.Distance(target, current);
+        const distance = Vector4.Distance(current, target);
+        if (distance === 0 || maxDistanceDelta <= 0) {
+            return current;
+        }
+        if (maxDistanceDelta >= distance) {
+            return target;
+        }
         return Vector4.Lerp(current, target, maxDistanceDelta / distance);
     }
     // ADD, SUBTRACT, MULTIPLY, DIVIDE (Method)
@@ -336,3 +381,4 @@ class Vector4 {
     }
 }
 exports.Vector4 = Vector4;
+//# sourceMappingURL=vector4.js.map

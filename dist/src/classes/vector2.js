@@ -3,74 +3,136 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Vector2 = void 0;
 class Vector2 {
     /**
-     * Creates a new vector with given x and y components.
-     * @param x X component of the vector.
-     * @param y Y component of the vector.
+     * Creates an instance of `Vector2` with the given `x` and `y` components.
+     *
+     * @param {number} [x] The X component of the `Vector2`.
+     * @param {number} [y] The Y component of the `Vector2`.
+     * @memberof Vector2
      */
     constructor(x, y) {
         /**
-         * X component of the vector.
+         * X component of the `Vector2`.
+         *
+         * @type {number}
+         * @memberof Vector2
          */
-        this.x = 0;
+        Object.defineProperty(this, "x", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: 0
+        });
         /**
-         * Y component of the vector.
+         * Y component of the `Vector2`.
+         *
+         * @type {number}
+         * @memberof Vector2
          */
-        this.y = 0;
-        if (x)
+        Object.defineProperty(this, "y", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: 0
+        });
+        if (x !== undefined)
             this.x = x;
-        if (y)
+        if (y !== undefined)
             this.y = y;
     }
     /**
-     * Shorthand for writing Vector2(1, 0).
+     * Shorthand for writing `Vector2(1, 0)`.
+     *
+     * @readonly
+     * @static
+     * @type {Vector2}
+     * @memberof Vector2
      */
     static get right() {
         return new Vector2(1, 0);
     }
     /**
-     * Shorthand for writing Vector2(-1, 0).
+     * Shorthand for writing `Vector2(-1, 0)`.
+     *
+     * @readonly
+     * @static
+     * @type {Vector2}
+     * @memberof Vector2
      */
     static get left() {
         return new Vector2(-1, 0);
     }
     /**
-     * Shorthand for writing Vector2(0, 1).
+     * Shorthand for writing `Vector2(0, 1)`.
+     *
+     * @readonly
+     * @static
+     * @type {Vector2}
+     * @memberof Vector2
      */
     static get up() {
         return new Vector2(0, 1);
     }
     /**
-     * Shorthand for writing Vector2(0, -1).
+     * Shorthand for writing `Vector2(0, -1)`.
+     *
+     * @readonly
+     * @static
+     * @type {Vector2}
+     * @memberof Vector2
      */
     static get down() {
         return new Vector2(0, -1);
     }
     /**
-     * Shorthand for writing Vector2(1, 1).
+     * Shorthand for writing `Vector2(1, 1)`.
+     *
+     * @readonly
+     * @static
+     * @type {Vector2}
+     * @memberof Vector2
      */
     static get one() {
         return new Vector2(1, 1);
     }
     /**
-     * Shorthand for writing Vector2(0, 0).
+     * Shorthand for writing `Vector2(0, 0)`.
+     *
+     * @readonly
+     * @static
+     * @type {Vector2}
+     * @memberof Vector2
      */
     static get zero() {
         return new Vector2(0, 0);
     }
     /**
-     * Shorthand for writing Vector2(-Infinity, -Infinity).
+     * Shorthand for writing `Vector2(-Infinity, -Infinity)`.
+     *
+     * @readonly
+     * @static
+     * @type {Vector2}
+     * @memberof Vector2
      */
     static get negativeInfinity() {
         return new Vector2(-Infinity, -Infinity);
     }
     /**
-     * Shorthand for writing Vector2(Infinity, Infinity).
+     * Shorthand for writing `Vector2(Infinity, Infinity)`.
+     *
+     * @readonly
+     * @static
+     * @type {Vector2}
+     * @memberof Vector2
      */
     static get positiveInfinity() {
         return new Vector2(Infinity, Infinity);
     }
     /**
-     * Returns this vector with a magnitude of 1 (Read Only).
+     * Returns this `Vector2` with a magnitude of 1 (Read Only).
+     *
+     * @readonly
+     * @type {Vector2}
+     * @memberof Vector2
      */
     get normalized() {
         const mag = this.magnitude;
@@ -80,35 +142,53 @@ class Vector2 {
         return Vector2.zero;
     }
     /**
-     * Returns the length of this vector
+     * Returns the length of this `Vector2`.
+     *
+     * @readonly
+     * @type {number}
+     * @memberof Vector2
      */
     get magnitude() {
-        return Math.sqrt(this.x * this.x + this.y * this.y);
+        return Math.sqrt(this.sqrMagnitude);
     }
     /**
-     * Returns the squared length of this vector
+     * Returns the squared length of this `Vector2`.
+     *
+     * @readonly
+     * @type {number}
+     * @memberof Vector2
      */
     get sqrMagnitude() {
-        return Math.sqrt(this.magnitude);
+        return Vector2.Dot(this, this);
     }
     /**
-     * Returns the angle in degrees between from and to.
-     * @param from The vector from which the angular difference is measured.
-     * @param to The vector to which the angular difference is measured.
-     * @returns The angle in degrees between the two vectors.
+     * Returns the angle in degrees between `from` and `to`.
+     *
+     * @static
+     * @param {Vector2} from The `Vector2` from which the angular difference is measured.
+     * @param {Vector2} to The `Vector2` to which the angular difference is measured.
+     * @returns {number} The angle in degrees between the two `Vector2`.
+     * @memberof Vector2
      */
     static Angle(from, to) {
         const dot = Vector2.Dot(from, to);
         const magFrom = from.magnitude;
         const magTo = to.magnitude;
         const RAD = 180 / Math.PI;
-        return Math.acos(dot / (magFrom * magTo)) * RAD;
+        if (magFrom === 0 || magTo === 0) {
+            return 0;
+        }
+        const cosine = Math.min(1, Math.max(-1, dot / (magFrom * magTo)));
+        return Math.acos(cosine) * RAD;
     }
     /**
-     * Returns a copy of vector with its magnitude clamped to maxLength.
-     * @param vector Vector to clamp
-     * @param maxLength length to clamp to
-     * @returns vector with its magnitude clamped
+     * Returns a copy of `Vector2` with its magnitude clamped to maxLength.
+     *
+     * @static
+     * @param {Vector2} vector The `Vector2` to clamp.
+     * @param {number} maxLength The length to clamp to.
+     * @returns {Vector2} The `Vector2` with its magnitude clamped.
+     * @memberof Vector2
      */
     static ClampMagnitude(vector, maxLength) {
         const mag = vector.magnitude;
@@ -120,28 +200,37 @@ class Vector2 {
     }
     /**
      * Returns the distance between a and b.
-     * @param a First vector
-     * @param b Second vector
-     * @returns distance between a and b
+     *
+     * @static
+     * @param {Vector2} a The first `Vector2`.
+     * @param {Vector2} b The second `Vector2`.
+     * @returns {number} The distance between a and b.
+     * @memberof Vector2
      */
     static Distance(a, b) {
         return Vector2.Subtract(a, b).magnitude;
     }
     /**
-     * Dot Product of two vectors.
-     * @param lhs Left hand side
-     * @param rhs Right hand side
-     * @returns
+     * Dot Product of two `Vector2`.
+     *
+     * @static
+     * @param {Vector2} lhs The left hand side.
+     * @param {Vector2} rhs The right hand side.
+     * @returns {number} The dit product of the two `Vector2`.
+     * @memberof Vector2
      */
     static Dot(lhs, rhs) {
         return lhs.x * rhs.x + lhs.y * rhs.y;
     }
     /**
      * Linearly interpolates between two points. If t is lower than 0, return a. If t is greater than 1, return b.
-     * @param a Start value, returned when t = 0.
-     * @param b End value, returned when t = 1.
-     * @param t Value used to interpolate between a and b.
-     * @returns Interpolated value, equals to a + (b - a) * t.
+     *
+     * @static
+     * @param {Vector2} a Start value, returned when t = 0.
+     * @param {Vector2} b End value, returned when t = 1.
+     * @param {number} t Value used to interpolate between a and b.
+     * @returns {Vector2} Interpolated value, equals to a + (b - a) * t.
+     * @memberof Vector2
      */
     static Lerp(a, b, t) {
         if (t < 0)
@@ -208,7 +297,10 @@ class Vector2 {
      * @returns The new position.
      */
     static MoveTowards(current, target, maxDistanceDelta) {
-        const distance = Vector2.Distance(target, current);
+        const distance = Vector2.Distance(current, target);
+        if (distance === 0 || maxDistanceDelta >= distance) {
+            return target;
+        }
         return Vector2.Lerp(current, target, maxDistanceDelta / distance);
     }
     // ADD, SUBTRACT, MULTIPLY, DIVIDE (Method)
@@ -268,6 +360,15 @@ class Vector2 {
             this.y /= rhs.y;
         }
     }
+    /**
+     * Checks whether a vector and another are the same
+     * @param a First vector
+     * @param b Second vector
+     * @returns Whether or not the two vectors are the same
+     */
+    Equals(other) {
+        return this.x === other.x && this.y === other.y;
+    }
     // ADD, SUBTRACT, MULTIPLY, DIVIDE (Static)
     /**
      * Add two vectors or a number to a vector
@@ -325,5 +426,15 @@ class Vector2 {
             return new Vector2(a.x / b.x, a.y / b.y);
         }
     }
+    /**
+     * Checks whether a vector and another are the same
+     * @param a First vector
+     * @param b Second vector
+     * @returns Whether or not the two vectors are the same
+     */
+    static Equals(a, b) {
+        return a.x === b.x && a.y === b.y;
+    }
 }
 exports.Vector2 = Vector2;
+//# sourceMappingURL=vector2.js.map

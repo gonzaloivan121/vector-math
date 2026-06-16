@@ -7,3 +7,4 @@ var vector3_1 = require("./vector3");
 Object.defineProperty(exports, "Vector3", { enumerable: true, get: function () { return vector3_1.Vector3; } });
 var vector4_1 = require("./vector4");
 Object.defineProperty(exports, "Vector4", { enumerable: true, get: function () { return vector4_1.Vector4; } });
+//# sourceMappingURL=index.js.map
